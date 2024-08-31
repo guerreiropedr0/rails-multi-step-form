@@ -1,0 +1,28 @@
+<%= turbo_frame_tag "wizard" do %>
+  <%= form_with(model: post, url: next_step_new_post_path(step: 2)) do |form| %>
+    <% if post.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(post.errors.count, "error") %>
+          prohibited this post from being saved:</h2>
+
+        <ul>
+          <% post.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form.hidden_field :description %>
+    <%= form.hidden_field :published_at %>
+
+    <div>
+      <%= form.label :title, style: "display: block" %>
+      <%= form.text_field :title %>
+    </div>
+
+    <div>
+      <%= form.submit "Next step" %>
+    </div>
+  <% end %>
+<% end %>

@@ -20,7 +20,7 @@ class PostsController < ApplicationController
     @next_step = params[:step].to_i
     @current_step = @next_step - 1
 
-    if @post.step_valid?(@current_step)
+    if @post.valid?(:"step_#{@current_step}")
       render partial: "posts/form_step_#{@next_step}", locals: { post: @post }
     else
       render partial: "posts/form_step_#{@current_step}", locals: { post: @post }
@@ -73,13 +73,14 @@ class PostsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def post_params
-      params.fetch(:post, {}).permit(:title, :description, :published_at)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_post
+    @post = Post.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def post_params
+    params.fetch(:post, {}).permit(:title, :description, :published_at)
+  end
 end
